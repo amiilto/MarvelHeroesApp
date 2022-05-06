@@ -1,0 +1,29 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.header-left {
+    display: flex;
+}
+.header-title-1 {
+    margin: 0;
+    color: #D42026;
+    opacity: 100%;
+    font-size: 28px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+}
+.header-title-2 {
+    margin: 0;
+    color: #D42026;
+    opacity: 100%;
+    font-size: 28px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+.header-underline {
+    height: 4px;
+    width: 54px;
+    background-color: #D42026;
+}
