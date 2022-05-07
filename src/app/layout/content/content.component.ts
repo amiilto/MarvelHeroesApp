@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, map} from 'rxjs';
 import { CharacterApiService } from 'src/app/services/api/character-api.service';
 
 @Component({
@@ -8,9 +7,9 @@ import { CharacterApiService } from 'src/app/services/api/character-api.service'
   styleUrls: ['./content.component.css']
 })
 export class ContentComponent implements OnInit {
-  heroes = new Array;
-  columns = ["Personagem", "Séries", "Eventos"];
-  offset: string = '30'
+  heroes: any;
+  offset: any = '0'
+  pageButtons: any;
 
   constructor(private characterService: CharacterApiService) { }
 
@@ -19,9 +18,24 @@ export class ContentComponent implements OnInit {
   }
 
   getAllCharacters() {
-    this.characterService.getCharacters(this.offset).subscribe(result => {
-      this.heroes = result; console.log(this.heroes); debugger
+    this.characterService.getCharacters(this.offset).subscribe(data => {
+      this.heroes = data.results;
+      let totalResults = data.total;
+      let pages = Math.ceil(totalResults/10); //número total de resultados divido pela quantia de resultados por página, arredondados para cima.
+      this.pageButtons = Array.from(Array(pages).keys(), x => x+1);
     });
   }
-  
+
+  getPaginationContent(value: any){
+    let valueString = value as HTMLElement;
+    let pageNumber = Number(valueString.innerHTML);
+    if (pageNumber == 1){
+      this.offset = '0'
+    } else {
+      this.offset = String((pageNumber-1)*10);
+    }
+    this.characterService.getCharacters(this.offset).subscribe(data => {
+      this.heroes = data.results;
+    });
+  }  
 }

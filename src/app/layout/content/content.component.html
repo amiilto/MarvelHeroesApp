@@ -1,16 +1,45 @@
-<div class="search-area">
-    <label for="search-hero" class="label-search">Nome do Personagem</label>
-    <input type="text">
-</div>
-<div class="content-table">
-    <table>
-        <tr>
-            <th *ngFor="let column of columns"> {{column}} </th>
-        </tr>
-        <tr>
-            <th></th>
-        </tr>
-    </table>
-</div>
+<div class="content-area">
+    <div class="search-area">
+        <label for="search-hero" class="label-search">Nome do Personagem</label>
+        <input type="text">
+    </div>
+    <div class="content-table">
+        <table>
+            <tr>
+                <th class="characters"> Personagem </th>
+                <th class="series"> Séries </th>
+                <th class="events"> Eventos </th>
+            </tr>
+            <tr *ngFor="let hero of heroes" class="content-row">
+                <td>
+                    <div class="row-content">
+                        <div class="row-thumbnail">
+                            <img [src]='hero.thumbnail.path+"/portrait_medium.jpg"'>
+                        </div>
+                        <div>
+                            {{hero.name}}
+                        </div>
+                    </div>
+                </td>
+                <td><ng-container *ngIf="hero.series.items.length">
+                    <ng-container *ngFor="let item of hero.series.items | slice:0:3; let i=index">
+                        {{hero.series.items[i].name}}<br/>
+                    </ng-container>
+                </ng-container></td>
 
-
+                <td><ng-container *ngIf="hero.events.items.length">
+                    <ng-container *ngFor="let item of hero.events.items | slice:0:3; let i=index">
+                        {{hero.events.items[i].name}}<br/>
+                    </ng-container>
+                </ng-container></td>
+            </tr>
+        </table>
+    </div>
+    <div class="pagination">
+        <div class="paginationButtons">
+            <a href="#">&laquo;</a>
+            <div class="button-pagination" *ngFor="let number of pageButtons" (click)="getPaginationContent($event.target)">{{number}}</div>
+            <a href="#">&raquo;</a>
+          </div>
+    </div>
+</div>

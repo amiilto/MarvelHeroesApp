@@ -11,6 +11,73 @@
     border: 1px solid #A5A5A5;
     border-radius: 3px;
 }
-tr {
-    height: 20px;
+.content-table {
+    display: flex;
+    flex-direction: column;
+    margin-top: 34px;
+    height: 464px;
+    overflow: scroll;
+}
+.pagination {
+    height: 64px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.paginationButtons {
+    display: inline-block;
+    height: 32px;
+    width: 200px;
+    overflow: hidden;
+}
+.paginationButtons a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+.button-pagination {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+.button-pagination:hover {
+    cursor: pointer;
+}
+.content-table th {
+    height: 37px;
+    background-color: #D42026;
+    color: #FFF;
+    font-size: 15px;
+    font-weight: 300;
+    text-align: left;
+    padding-left: 20px;
+}
+.content-table table {
+    border-spacing: 10px;
+}
+.content-table img {
+    object-fit: cover;
+    height: 58px;
+    width: 58px;
+    border-radius: 50%;
+}
+.characters, .series {
+    width: 25%;
+}
+.events {
+    width: 50%;
+}
+.content-row {
+    height: 112px;
+    vertical-align: middle;
+}
+.row-content {
+    display: flex;
+    align-items: center;
+}
+.row-thumbnail {
+    margin-right: 25px;
 }

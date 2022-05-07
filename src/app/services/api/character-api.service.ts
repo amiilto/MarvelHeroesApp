@@ -14,7 +14,7 @@ export class CharacterApiService {
   constructor(private http: HttpClient) { }
 
   getCharacters(offset: string): Observable<any>{
-    return this.http.get(this.BASE_API_URL+'&offset='+offset).pipe(
-      map((data: any) => data));
+    return this.http.get(this.BASE_API_URL+'&offset='+offset+'&limit=10').pipe(
+      map((data: any) => data.data));
   }
 }
