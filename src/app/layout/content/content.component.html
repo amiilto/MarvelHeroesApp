@@ -1,7 +1,7 @@
 <div class="content-area">
     <div class="search-area">
         <label for="search-hero" class="label-search">Nome do Personagem</label>
-        <input type="text">
+        <input type="text" id="search-input" (keydown.enter)="search()" (keyup)="resetTable()">
     </div>
     <div class="content-table">
         <table>
@@ -10,7 +10,7 @@
                 <th class="series"> Séries </th>
                 <th class="events"> Eventos </th>
             </tr>
-            <tr *ngFor="let hero of heroes" class="content-row">
+            <tr *ngFor="let hero of heroes" class="content-row" (click)="openModal(hero.name, hero.series.items, hero.events.items, hero.thumbnail.path)">
                 <td>
                     <div class="row-content">
                         <div class="row-thumbnail">
@@ -36,10 +36,38 @@
         </table>
     </div>
     <div class="pagination">
-        <div class="paginationButtons">
-            <a href="#">&laquo;</a>
-            <div class="button-pagination" *ngFor="let number of pageButtons" (click)="getPaginationContent($event.target)">{{number}}</div>
-            <a href="#">&raquo;</a>
-          </div>
+        <div class='button-play-f' (click)="rollLeft()"></div>
+        <div class="paginationButtons" id="paginationButtons">
+            <div class="button-pagination"
+            *ngFor="let number of pageButtons"
+            (click)="getPaginationContent($event.target)">
+                <div>{{number}}</div>
+            </div>
+        </div>
+        <div class='button-play-r' (click)="rollRight()"></div>
+    </div>
+</div>
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <div class="modal-thumbnail">
+            <img [src]='heroThumbnail+"/portrait_xlarge.jpg"'><br/>
+            <div style="font-weight: 700; font-size: 20px;">{{heroName}}</div><br/>
+        </div>
+        <div class="modal-description">
+            <div class="modal-series">
+                <div style="font-weight: 600">Séries</div><br/>
+                <div *ngFor="let series of heroSeries">
+                    {{series.name}}
+                </div>
+            </div>
+            <div class="modal-separator"></div>
+            <div class="modal-events">
+                <div style="font-weight: 600">Eventos</div><br/>
+                <div *ngFor="let events of heroEvents">
+                    {{events.name}}
+                </div>
+            </div>
+        </div>
+        <div class="close-btn" (click)="closeModal()">&times;</div>
     </div>
 </div>

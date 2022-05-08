@@ -10,6 +10,13 @@ export class ContentComponent implements OnInit {
   heroes: any;
   offset: any = '0'
   pageButtons: any;
+  heroName: string;
+  heroSeries: any;
+  heroEvents: any;
+  heroThumbnail: string;
+  totalResults: any;
+  pages: any;
+  oldPageNumber: any = '1';
 
   constructor(private characterService: CharacterApiService) { }
 
@@ -20,13 +27,15 @@ export class ContentComponent implements OnInit {
   getAllCharacters() {
     this.characterService.getCharacters(this.offset).subscribe(data => {
       this.heroes = data.results;
-      let totalResults = data.total;
-      let pages = Math.ceil(totalResults/10); //número total de resultados divido pela quantia de resultados por página, arredondados para cima.
-      this.pageButtons = Array.from(Array(pages).keys(), x => x+1);
+      this.totalResults = data.total;
+      this.pages = Math.ceil(this.totalResults/10); //número total de resultados divido pela quantia de resultados por página, arredondados para cima.
+      this.pageButtons = Array.from(Array(this.pages).keys(), x => x+1);
     });
+    let paginationButtons: HTMLDivElement = document.querySelector("#paginationButtons")!;
+    paginationButtons.style.display = 'block';
   }
 
-  getPaginationContent(value: any){
+  getPaginationContent(value: any) {
     let valueString = value as HTMLElement;
     let pageNumber = Number(valueString.innerHTML);
     if (pageNumber == 1){
@@ -37,5 +46,64 @@ export class ContentComponent implements OnInit {
     this.characterService.getCharacters(this.offset).subscribe(data => {
       this.heroes = data.results;
     });
-  }  
+
+    if (pageNumber < this.oldPageNumber) {
+      this.rollLeft();
+      this.oldPageNumber = pageNumber;
+    } else if (pageNumber > this.oldPageNumber) {
+      this.rollRight();
+      this.oldPageNumber = pageNumber;
+    }
+    
+    for (let div of document.querySelectorAll(".button-pagination")){
+      if (div.textContent?.includes(String(valueString))){
+        
+      }
+    }
+    
+  }
+
+  rollRight() {
+    let contentDiv = document.querySelector('#paginationButtons')!;
+    contentDiv.scrollLeft += 52;
+  }
+
+  rollLeft() {
+    let contentDiv = document.querySelector('#paginationButtons')!;
+    contentDiv.scrollLeft += -52;
+  }
+
+  search() {
+    let searchInput: HTMLInputElement = document.querySelector("#search-input")!;
+    let searchString = searchInput.value;
+    this.characterService.getCharacters('0', searchString).subscribe(data => {
+      if (data.results.length > 0) {
+        let paginationButtons: HTMLDivElement = document.querySelector("#paginationButtons")!;
+        paginationButtons.style.display = 'none';
+        this.heroes = data.results;
+      }
+    });
+  }
+
+  resetTable(){
+    let searchInput: HTMLInputElement = document.querySelector("#search-input")!;
+    if (searchInput.value == '') {
+      this.getAllCharacters();
+    }
+  }
+  
+  openModal(heroname: string, heroseries: any, heroevents: any, herothumbnail: string) {
+    let modal: HTMLDivElement = document.querySelector(".modal")!;
+    modal.style.display = 'block'
+    this.heroName = heroname;
+    this.heroSeries = heroseries;
+    this.heroEvents = heroevents;
+    this.heroThumbnail = herothumbnail;
+  }
+
+  closeModal() {
+    let modal: HTMLDivElement = document.querySelector(".modal")!;
+    modal.style.display = 'none';
+  }
+
 }

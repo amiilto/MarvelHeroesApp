@@ -13,8 +13,14 @@ export class CharacterApiService {
 
   constructor(private http: HttpClient) { }
 
-  getCharacters(offset: string): Observable<any>{
-    return this.http.get(this.BASE_API_URL+'&offset='+offset+'&limit=10').pipe(
+  getCharacters(offset: string, optionalParams?: string): Observable<any>{
+    let fullURL: string = this.BASE_API_URL+'&offset='+offset+'&limit=10';
+    if (optionalParams)
+    {
+      fullURL = fullURL+'&name='+optionalParams;
+    }
+
+    return this.http.get(fullURL).pipe(
       map((data: any) => data.data));
   }
 }
