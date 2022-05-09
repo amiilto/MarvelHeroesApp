@@ -27,3 +27,11 @@
     width: 54px;
     background-color: #D42026;
 }
+@media screen and (max-width: 720px) {
+    .header-title-1, .header-title-2 {
+      font-size: 20px;
+    }
+    .header-right {
+        display: none;
+    }
+}

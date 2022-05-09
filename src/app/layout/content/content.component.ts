@@ -17,6 +17,7 @@ export class ContentComponent implements OnInit {
   totalResults: any;
   pages: any;
   oldPageNumber: any = '1';
+  oldValueString: HTMLDivElement;
 
   constructor(private characterService: CharacterApiService) { }
 
@@ -36,7 +37,7 @@ export class ContentComponent implements OnInit {
   }
 
   getPaginationContent(value: any) {
-    let valueString = value as HTMLElement;
+    let valueString = value as HTMLDivElement;
     let pageNumber = Number(valueString.innerHTML);
     if (pageNumber == 1){
       this.offset = '0'
@@ -54,13 +55,6 @@ export class ContentComponent implements OnInit {
       this.rollRight();
       this.oldPageNumber = pageNumber;
     }
-    
-    for (let div of document.querySelectorAll(".button-pagination")){
-      if (div.textContent?.includes(String(valueString))){
-        
-      }
-    }
-    
   }
 
   rollRight() {
